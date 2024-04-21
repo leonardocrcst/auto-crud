@@ -1,0 +1,34 @@
+volumes:
+  logs:
+    driver: local
+
+services:
+  ac-php:
+    container_name: ac-php
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    working_dir: /var/www
+    command: php -S 0.0.0.0:8080 -t public
+    environment:
+      docker: "true"
+    ports:
+      - "8090:8080"
+      - "40280:9003"
+    volumes:
+      - .:/var/www
+      - logs:/var/www/log
+
+  ac-database:
+    container_name: ac-database
+    image: mariadb:lts
+    restart: always
+    environment:
+      MARIADB_USER: "ac-user"
+      MARIADB_PASSWORD: "ac-password"
+      MARIADB_ROOT_PASSWORD: "ac-root-password"
+    volumes:
+      - "./database/data:/var/lib/mysql/data/"
+      - "./database/logs:/var/lib/mysql/logs/"
+    ports:
+      - "3306:3306"
