@@ -15,7 +15,6 @@ class Router
     ): ResponseInterface {
         $resource = RequestFactory::getResource();
         if ($this->hasResource($resource)) {
-            $resource = RequestFactory::getResource();
             $action = RequestFactory::getAction();
             $parameters = RequestFactory::getParameters();
             $test = ['resource' => $resource, 'action' => $action, 'parameters' => $parameters];
